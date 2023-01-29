@@ -3,6 +3,7 @@ import { TextField, Button } from "@material-ui/core";
 import SearchIcon from "@mui/icons-material/Search";
 import { InputAdornment } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
+import {debounce} from 'lodash'
 import Animelist from "./animelist";
 
 function SearchPage() {
@@ -20,6 +21,12 @@ function SearchPage() {
     });
   };
 
+
+  const handleQuery = debounce((query)=> {
+    setQuery(query)
+
+  },1000)
+
   const requestCounterRef = useRef(0);
   useEffect(() => {
     const getData = async () => {
@@ -34,7 +41,7 @@ function SearchPage() {
       const resData = await res.json();
       setAnimeData(resData.data);
       setPagination(resData.pagination);
-      console.log(resData)
+      
     };
     getData();
     console.log(animeData);
@@ -57,8 +64,8 @@ function SearchPage() {
     <>
       <TextField
         label="Search"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
+        // value={query}
+        onChange={(e) => handleQuery(e.target.value)}
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">
