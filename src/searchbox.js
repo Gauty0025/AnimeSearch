@@ -27,14 +27,10 @@ function SearchPage() {
 
   },1000)
 
-  const requestCounterRef = useRef(0);
+  
   useEffect(() => {
     const getData = async () => {
-      requestCounterRef.current++;
-      if (requestCounterRef.current > 3) {
-        await new Promise((resolve) => setTimeout(resolve, 1000)); // delay of 1 second
-        requestCounterRef.current = 0;
-      }
+      
       const res = await fetch(
         `https://api.jikan.moe/v4/characters?page=${page}&limit=15&q=${query}&order_by=favorites&sort=desc`
       );
